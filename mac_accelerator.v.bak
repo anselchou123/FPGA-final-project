@@ -1,0 +1,21 @@
+module mac_accelerator (
+    input wire clk,
+    input wire rst_n,
+    input wire start,
+    input wire signed [7:0] a,
+    input wire signed [7:0] b,
+    output reg signed [17:0] acc
+);
+
+    reg signed [15:0] mult_out;
+
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            mult_out <= 16'd0;
+            acc      <= 18'd0;
+        end else if (start) begin
+            mult_out <= a * b;
+            acc      <= acc + (a * b); // 直接相加
+        end
+    end
+endmodule
